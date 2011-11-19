@@ -1,10 +1,10 @@
-# *menthol|ClassLoader*
+# *ClassLoader*
 ## Class loader for PHP 5.3
 
 * version : 1.0
 * status : alpha
 * license : GNU v2
-* irc : #menthol|ClassLoader
+* irc : [#menthol|classloader](irc://irc.freenode.net#menthol|classloader "menthol classloader chatroom") [menthol (pipe) classloader]
 
 ### Usage examples
 
@@ -59,12 +59,12 @@ Use `ClassLoader::setNamespaceHandler(array $handler)` to congif yours namespace
 
 the handler array can take this properties :
 
-* "namespace prefix" : *required* the full class name must start with, ex menthol\Controller
-* "path prefix" : *required* current file path of the namespace, ex __DIR__ . '/../classes'
-* "file extension" : extension of the final filename, default : .php
+* "namespace prefix" : *required* the full class name must start with, ex `menthol\Controller`
+* "path prefix" : *required* current file path of the namespace, ex `__DIR__ . '/../classes'`
+* "file extension" : extension of the final filename, default : `.php`
 * "file prefix" : prefix of final filename
-* "namespace separator" : namespace separator char, default : \
-* "path namespace separator" : the namespace separator in final path, default : DIRECTORY_SEPARATOR
-* "path separator" : char between path and class filename, default : DIRECTORY_SEPARATOR
-* "path builder callback" : *advanced user Only* a callback to build the full filename, default : Classloader::buildClassPath(array $handler, $classname)
-* "filename builder callback" : *advanced user Only* a callback to build the final class filename, default : ClassLoader::buildClassFilename(array $handler, $classname)
+* "namespace separator" : namespace separator char, default : `\`
+* "path namespace separator" : the namespace separator in final path, default : `DIRECTORY_SEPARATOR`
+* "path separator" : char between path and class filename, default : `DIRECTORY_SEPARATOR`
+* "path builder callback" : *advanced user Only* a callback to build the full filename, default : `Classloader::buildClassPath(array $handler, $classname)`
+* "filename builder callback" : *advanced user Only* a callback to build the final class filename, default : `ClassLoader::buildClassFilename(array $handler, $classname)`
