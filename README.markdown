@@ -58,6 +58,7 @@ You have to config the class loader before the first use of unknown class.
 Use `ClassLoader::setNamespaceHandler(array $handler)` to congif yours namespaces.
 
 the handler array can take this properties :
+
 * "namespace prefix" : *required* the full class name must start with, ex menthol\Controller
 * "path prefix" : *required* current file path of the namespace, ex __DIR__ . '/../classes'
 * "file extension" : extension of the final filename, default : .php
