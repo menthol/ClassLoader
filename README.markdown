@@ -55,7 +55,7 @@ $class = new Namespace\ClassName();
 
 ### configuration
 You have to config the class loader before the first use of unknown class.
-Use `ClassLoader::setNamespaceHandler(array $handler)` to congif yours namespaces.
+Use `ClassLoader::setNamespaceHandler(array $handler)` to config yours namespaces.
 
 the handler array can take this properties :
 
