@@ -4,7 +4,7 @@
 * version : 1.0
 * status : alpha
 * license : GNU v2
-* irc : irc://irc.freenode.net#menthol-classloader
+* irc : #menthol-classloader
 
 ### Usage examples
 
