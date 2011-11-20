@@ -4,7 +4,7 @@
 * version : 1.0
 * status : alpha
 * license : GNU v2
-* irc : [#menthol|classloader](irc://irc.freenode.net#menthol|classloader "menthol classloader chatroom") [menthol (pipe) classloader]
+* irc : irc://irc.freenode.net#menthol-classloader
 
 ### Usage examples
 
