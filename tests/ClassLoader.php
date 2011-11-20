@@ -44,7 +44,7 @@ class ClassLoader extends atoum\test {
     $namespace_info = array();
     $this->assert
       ->exception(function() use ($namespace_info) {
-        CL::setNamespaceHandler($namespace_info);
+        CL::addNamespaceHandler($namespace_info);
       })
       ->isInstanceOf('BadMethodCallException');
 
@@ -53,7 +53,7 @@ class ClassLoader extends atoum\test {
     );
     $this->assert
       ->exception(function() use ($namespace_info) {
-        CL::setNamespaceHandler($namespace_info);
+        CL::addNamespaceHandler($namespace_info);
       })
       ->isInstanceOf('BadMethodCallException');
 
@@ -62,7 +62,7 @@ class ClassLoader extends atoum\test {
     );
     $this->assert
       ->exception(function() use ($namespace_info) {
-        CL::setNamespaceHandler($namespace_info);
+        CL::addNamespaceHandler($namespace_info);
       })
       ->isInstanceOf('BadMethodCallException');
   }
@@ -119,7 +119,7 @@ class ClassLoader extends atoum\test {
   }
 
   public function testNamespaceHandler() {
-    CL::setNamespaceHandler(array(
+    CL::addNamespaceHandler(array(
       'path prefix' => __DIR__ .  '/misc/classes',
       'namespace prefix' => 'menthol\\test',
     ));

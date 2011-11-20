@@ -37,7 +37,7 @@ final class ClassLoader {
     return self::$classes[$class];
   }
 
-  static public function setNamespaceHandler(array $namespace_handler) {
+  static public function addNamespaceHandler(array $namespace_handler) {
     if (!isset($namespace_handler['path prefix']) || !isset($namespace_handler['namespace prefix'])) {
       throw new \BadMethodCallException('Both path and namespace are required.');
     }
