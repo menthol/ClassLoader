@@ -23,7 +23,7 @@
 
 ```php
 <?php
-\menthol\ClassLoader\ClassLoader::setNamespaceHandler(array(
+\menthol\ClassLoader\ClassLoader::addNamespaceHandler(array(
   'path prefix' => my_app_base_dir() . '/classes',
   'namespace prefix' => 'myapp',
 ));
@@ -35,7 +35,7 @@ $app = new /myapp/Controllers/MainController();
 
 ```php
 <?php
-\menthol\ClassLoader\ClassLoader::setNamespaceHandler(array(
+\menthol\ClassLoader\ClassLoader::addNamespaceHandler(array(
   'path prefix' => my_app_base_dir() . '/classes',
   'namespace prefix' => 'myapp',
   'namespace separator' => '_',
@@ -55,7 +55,7 @@ $class = new Namespace\ClassName();
 
 ### configuration
 You have to config the class loader before the first use of unknown class.
-Use `ClassLoader::setNamespaceHandler(array $handler)` to config yours namespaces.
+Use `ClassLoader::addNamespaceHandler(array $handler)` to config yours namespaces.
 
 the handler array can take this properties :
 
