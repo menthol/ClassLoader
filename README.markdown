@@ -92,20 +92,20 @@ Use `ClassLoader::addNamespaceHandler(array $handler)` to config yours namespace
 
 the handler array can take this properties :
 
-* "namespace prefix" : *required* the full class name must start with.
-  > ex `menthol\Controller`
+* "namespace prefix" : *required* the full class name must start with.  
+  ex `menthol\Controller`
 * "path prefix" : *required* current file path of the namespace.
-  > ex `__DIR__ . '/../classes'`
+  ex `__DIR__ . '/../classes'`
 * "file extension" : extension of the final filename.
-  > default : `.php`
+  default : `.php`
 * "file prefix" : prefix of final filename
 * "namespace separator" : namespace separator char.
-  > default : `\`
+  default : `\`
 * "path namespace separator" : the namespace separator in final path.
-  > default : `DIRECTORY_SEPARATOR`
+  default : `DIRECTORY_SEPARATOR`
 * "path separator" : char between path and class filename.
-  > default : `DIRECTORY_SEPARATOR`
+  default : `DIRECTORY_SEPARATOR`
 * "path builder callback" : *advanced user Only* a callback to build the full filename.
-  > default : `Classloader::buildClassPath(array $handler, $classname)`
+  default : `Classloader::buildClassPath(array $handler, $classname)`
 * "filename builder callback" : *advanced user Only* a callback to build the final class filename.
-  > default : `ClassLoader::buildClassFilename(array $handler, $classname)`
+  default : `ClassLoader::buildClassFilename(array $handler, $classname)`
