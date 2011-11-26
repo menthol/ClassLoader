@@ -50,7 +50,10 @@ $app = new /myapp1/Controllers/MainController();
 
 ```php
 <?php
-// Register namespace.
+// Register namespace classic method.
+\menthol\ClassLoader\ClassLoader::addNamespace('myapp', my_app_base_dir() . '/classes', '_');
+
+// Register namespace handler method.
 \menthol\ClassLoader\ClassLoader::addNamespaceHandler(array(
   'namespace prefix' => 'myapp',
   'namespace separator' => '_',
