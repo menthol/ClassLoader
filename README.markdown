@@ -12,10 +12,10 @@
 
 ```php
 <?php
-// register
+// Register ClassLoder.
 \menthol\ClassLoader\ClassLoader::register();
 
-// unregister
+// Unregister ClassLoader.
 \menthol\ClassLoader\ClassLoader::unregister();
 ```
 
@@ -23,25 +23,41 @@
 
 ```php
 <?php
-\menthol\ClassLoader\ClassLoader::addNamespaceHandler(array(
-  'path prefix' => my_app_base_dir() . '/classes',
-  'namespace prefix' => 'myapp',
-));
+// Register namespace.
+\menthol\ClassLoader::addNamespace('myapp', my_app_base_dir() . '/classes');
 
-// Autoload file {my_app_base_dir}/classes/Controllers/MainController.php
+// Autoload file {my_app_base_dir}/classes/Controllers/MainController.php.
 $app = new /myapp/Controllers/MainController();
 ```
+
+#### Classic many namespaces
+
+```php
+<?php
+// Register namespaces.
+\menthol\ClassLoader::addNamespaces(array(
+  array('myapp1', my_app_base_dir() . '/classes/myapp1'),
+  array('myapp2', my_app_base_dir() . '/classes/myadd2'),
+  array('myapp3', my_app_base_dir() . '/classes/myadd3'),
+));
+
+// Autoload file {my_app_base_dir}/classes/myapp1/Controllers/MainController.php.
+$app = new /myapp1/Controllers/MainController();
+```
+
+
 #### Pear style class
 
 ```php
 <?php
+// Register namespace.
 \menthol\ClassLoader\ClassLoader::addNamespaceHandler(array(
-  'path prefix' => my_app_base_dir() . '/classes',
   'namespace prefix' => 'myapp',
   'namespace separator' => '_',
+  'path prefix' => my_app_base_dir() . '/classes',
 ));
 
-// Autoload file {my_app_base_dir}/classes/Controllers/MainController.php
+// Autoload file {my_app_base_dir}/classes/Controllers/MainController.php.
 $app = new myapp_Controllers_MainController();
 ```
 
@@ -50,6 +66,20 @@ $app = new myapp_Controllers_MainController();
 ```php
 <?php
 \menthol\ClassLoader\ClassLoader::setClassPath('Namespace\\ClassName', '/path/to/class.php');
+$class = new Namespace\ClassName();
+```
+
+#### Many classes
+
+```php
+<?php
+\menthol\ClassLoader\ClassLoader::setClassesPath(array(
+  array('Namespace\\ClassName1', '/path/to/class1.php'),
+  array('Namespace\\ClassName2', '/path/to/class2.php'),
+  array('Namespace\\ClassName3', '/path/to/class3.php'),
+  array('Namespace\\ClassName4', '/path/to/class4.php'),
+  array('Namespace\\ClassName5', '/path/to/class5.php'),
+));
 $class = new Namespace\ClassName();
 ```
 

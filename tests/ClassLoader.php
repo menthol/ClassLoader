@@ -1,6 +1,6 @@
 <?php
 namespace menthol\ClassLoader\tests\units;
-require_once dirname(__DIR__).'/classes/ClassLoader.php';
+require_once dirname(__DIR__) . '/src/ClassLoader.php';
 
 use \mageekguy\atoum, \menthol\ClassLoader\ClassLoader as CL;
 

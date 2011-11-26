@@ -22,6 +22,12 @@ final class ClassLoader {
     self::$classes[$class] = $path;
   }
 
+  static public function setClassesPath(array $classes) {
+    foreach ($classes as $class) {
+      call_user_func_array(array(__CLASS__, 'setClassPath'), $class);
+    }
+  }
+
   static public function getClassPath($class) {
     if (!isset(self::$classes[$class]) || empty(self::$classes[$class]) || !is_readable(self::$classes[$class])) {
       $namespace_handlers = self::getNamespaceHandlers($class);
@@ -35,6 +41,20 @@ final class ClassLoader {
       }
     }
     return self::$classes[$class];
+  }
+
+  static public function addNamespace($namespace_prefix, $path, $namespace_separator = '\\') {
+    self::addNamespaceHandler(array(
+      'namespace prefix' => $namespace_prefix,
+      'path prefix' => $path,
+      'namespace separator' => $namespace_separator,
+    ));
+  }
+
+  static public function addNamespaces(array $namespaces) {
+    foreach($namespaces as $namespace) {
+      call_user_func_array(array(__CLASS__, 'addNamespace'), $namespace);
+    }
   }
 
   static public function addNamespaceHandler(array $namespace_handler) {
