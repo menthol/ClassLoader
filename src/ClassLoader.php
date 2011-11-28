@@ -1,6 +1,6 @@
 <?php
 
-namespace menthol\ClassLoader;
+namespace ClassLoader;
 
 final class ClassLoader {
 
@@ -43,12 +43,11 @@ final class ClassLoader {
     return self::$classes[$class];
   }
 
-  static public function addNamespace($namespace_prefix, $path, $namespace_separator = '\\') {
+  static public function addNamespace($namespace_prefix, $path, array $options = array()) {
     self::addNamespaceHandler(array(
       'namespace prefix' => $namespace_prefix,
       'path prefix' => $path,
-      'namespace separator' => $namespace_separator,
-    ));
+    ) + $options);
   }
 
   static public function addNamespaces(array $namespaces) {
@@ -67,15 +66,17 @@ final class ClassLoader {
 
   static public function getNamespaceInfoDefaults() {
     return array(
+      'class hierarchy separator' => '_',
       'file prefix' => '',
       'file extension' => '.php',
-      'namespace separator' => '\\',
+      'filename builder callback' => array(__CLASS__, 'buildClassFilename'),
+      'namespace hierarchy separator' => '\\',
       'namespace prefix' => null,
-      'path namespace separator' => DIRECTORY_SEPARATOR,
+      'path class hierarchy separator' => DIRECTORY_SEPARATOR,
+      'path namespace hierarchy separator' => DIRECTORY_SEPARATOR,
       'path separator' => DIRECTORY_SEPARATOR,
       'path builder callback' => array(__CLASS__, 'buildClassPath'),
       'path prefix' => '',
-      'filename builder callback' => array(__CLASS__, 'buildClassFilename'),
     );
   }
 
@@ -90,12 +91,13 @@ final class ClassLoader {
   }
 
   static public function buildClassPath($namespace_info, $class) {
+    $class = ltrim($class, $namespace_info['namespace hierarchy separator']);
     if (strpos($class, $namespace_info['namespace prefix']) !== 0) {
       return null;
     }
     $return = substr($class, strlen($namespace_info['namespace prefix']) + 1);
-    $return = substr($return, 0 , strrpos($return, $namespace_info['namespace separator']));
-    $return = str_replace($namespace_info['namespace separator'], $namespace_info['path namespace separator'], $return);
+    $return = substr($return, 0 , strrpos($return, $namespace_info['namespace hierarchy separator']));
+    $return = str_replace($namespace_info['namespace hierarchy separator'], $namespace_info['path namespace hierarchy separator'], $return);
     $return = (empty($return) ? '' : $namespace_info['path separator'] . $return);
     $return .= $namespace_info['path separator'];
     $return .= call_user_func($namespace_info['filename builder callback'], $namespace_info, $class);
@@ -103,8 +105,9 @@ final class ClassLoader {
   }
 
   static public function buildClassFilename($namespace_info, $class) {
+    $class = substr($class, strrpos($class, $namespace_info['namespace hierarchy separator']) + 1);
     return $namespace_info['file prefix']
-          . substr($class, strrpos($class, $namespace_info['namespace separator']) + 1)
+          . str_replace($namespace_info['class hierarchy separator'], $namespace_info['path class hierarchy separator'], $class)
           . $namespace_info['file extension'];
   }
 

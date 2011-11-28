@@ -13,10 +13,10 @@
 ```php
 <?php
 // Register ClassLoder.
-\menthol\ClassLoader\ClassLoader::register();
+\ClassLoader\ClassLoader::register();
 
 // Unregister ClassLoader.
-\menthol\ClassLoader\ClassLoader::unregister();
+\ClassLoader\ClassLoader::unregister();
 ```
 
 #### Classic
@@ -24,7 +24,7 @@
 ```php
 <?php
 // Register namespace.
-\menthol\ClassLoader::addNamespace('myapp', my_app_base_dir() . '/classes');
+\ClassLoader::addNamespace('myapp', my_app_base_dir() . '/classes');
 
 // Autoload file {my_app_base_dir}/classes/Controllers/MainController.php.
 $app = new /myapp/Controllers/MainController();
@@ -35,7 +35,7 @@ $app = new /myapp/Controllers/MainController();
 ```php
 <?php
 // Register namespaces.
-\menthol\ClassLoader::addNamespaces(array(
+\ClassLoader::addNamespaces(array(
   array('myapp1', my_app_base_dir() . '/classes/myapp1'),
   array('myapp2', my_app_base_dir() . '/classes/myadd2'),
   array('myapp3', my_app_base_dir() . '/classes/myadd3'),
@@ -51,10 +51,10 @@ $app = new /myapp1/Controllers/MainController();
 ```php
 <?php
 // Register namespace classic method.
-\menthol\ClassLoader\ClassLoader::addNamespace('myapp', my_app_base_dir() . '/classes', '_');
+\ClassLoader\ClassLoader::addNamespace('myapp', my_app_base_dir() . '/classes', '_');
 
 // Register namespace handler method.
-\menthol\ClassLoader\ClassLoader::addNamespaceHandler(array(
+\ClassLoader\ClassLoader::addNamespaceHandler(array(
   'namespace prefix' => 'myapp',
   'namespace separator' => '_',
   'path prefix' => my_app_base_dir() . '/classes',
@@ -68,7 +68,7 @@ $app = new myapp_Controllers_MainController();
 
 ```php
 <?php
-\menthol\ClassLoader\ClassLoader::setClassPath('Namespace\\ClassName', '/path/to/class.php');
+\ClassLoader\ClassLoader::setClassPath('Namespace\\ClassName', '/path/to/class.php');
 $class = new Namespace\ClassName();
 ```
 
@@ -76,7 +76,7 @@ $class = new Namespace\ClassName();
 
 ```php
 <?php
-\menthol\ClassLoader\ClassLoader::setClassesPath(array(
+\ClassLoader\ClassLoader::setClassesPath(array(
   array('Namespace\\ClassName1', '/path/to/class1.php'),
   array('Namespace\\ClassName2', '/path/to/class2.php'),
   array('Namespace\\ClassName3', '/path/to/class3.php'),
@@ -92,16 +92,19 @@ Use `ClassLoader::addNamespaceHandler(array $handler)` to config yours namespace
 
 the handler array can take this properties :
 
-* "namespace prefix" : *required* the full class name must start with.  
-  ex `menthol\Controller`
+* "App\Controller`
 * "path prefix" : *required* current file path of the namespace.  
   ex `__DIR__ . '/../classes'`
 * "file extension" : extension of the final filename.  
   default : `.php`
-* "file prefix" : prefix of final filename
-* "namespace separator" : namespace separator char.  
+* "file prefix" : prefix of final filename  
+* "class hierarchy separator" : class hierarchy separator char.  
+  default : `_`
+* "path class hierarchy separator" : the class hierarchy separator in final path.  
+  default : `DIRECTORY_SEPARATOR`
+* "namespace hierarchy separator" : namespace hierarchy separator char.  
   default : `\`
-* "path namespace separator" : the namespace separator in final path.  
+* "path namespace hierarchy separator" : the namespace separator in final path.  
   default : `DIRECTORY_SEPARATOR`
 * "path separator" : char between path and class filename.  
   default : `DIRECTORY_SEPARATOR`

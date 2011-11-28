@@ -1,5 +1,5 @@
 <?php
 
-namespace menthol\test;
+namespace test;
 
 class TestClass { }
