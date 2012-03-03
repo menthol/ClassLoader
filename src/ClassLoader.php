@@ -2,130 +2,88 @@
 
 namespace ClassLoader;
 
+use Extensions\ClassLoader\Cache\Cache;
+use Extensions\ClassLoader\Cache\Instance;
+use Extensions\ClassLoader\PathBuilder\PathBuilder;
+use Extensions\ClassLoader\PathBuilder\SplPathBuilder;
+
 final class ClassLoader {
 
-  static private $namespaces = array();
-  static private $classes = array();
+  private $_cache;
+  private $_path_builders = array();
 
   private function __construct() {}
   private function __clone() {}
+  private function __wakeup() {}
+  private function __set_state() {}
 
-  static public function register() {
-    return spl_autoload_register(array(__CLASS__, 'loadClass'));
+  static public function init() {
+    return self::initWithCache(Instance::init());
   }
 
-  static public function unregister() {
-    return spl_autoload_unregister(array(__CLASS__, 'loadClass'));
+  static public function initWithCache(Cache $cache) {
+    $instance = new ClassLoader();
+    $instance->setCache($cache);
+    return $instance;
   }
 
-  static public function setClassPath($class, $path) {
-    self::$classes[$class] = $path;
+  public function setCache(Cache $cache) {
+    $this->_cache = $cache;
   }
 
-  static public function setClassesPath(array $classes) {
-    foreach ($classes as $class) {
-      call_user_func_array(array(__CLASS__, 'setClassPath'), $class);
+  public function register() {
+    return spl_autoload_register(array($this, 'loadClass'));
+  }
+
+  public function unregister() {
+    return spl_autoload_unregister(array($this, 'loadClass'));
+  }
+
+  public function loadClass($class) {
+    $class = ltrim($class, '\\');
+    if (class_exists($class, false)) {
+      return true;
     }
-  }
-
-  static public function getClassPath($class) {
-    if (!isset(self::$classes[$class]) || empty(self::$classes[$class]) || !is_readable(self::$classes[$class])) {
-      $namespace_handlers = self::getNamespaceHandlers($class);
-      self::$classes[$class] = null;
-      foreach($namespace_handlers as $handler) {
-        $path = call_user_func($handler['path builder callback'], $handler, $class);
-        if (is_readable($path)) {
-          self::$classes[$class] = $path;
-          break;
+    $paths = array_values($this->_cache->getPaths());
+    foreach($paths as $key => $path) {
+      if ($this->checkPath($path, $class)) {
+        if ($key != 0) {
+          unset($paths[$key]);
+          array_unshift($paths, $path);
+          $this->_cache->savePaths($paths);
         }
+        return true;
       }
     }
-    return self::$classes[$class];
-  }
-
-  static public function addNamespace($namespace_prefix, $path, array $options = array()) {
-    self::addNamespaceHandler(array(
-      'namespace prefix' => $namespace_prefix,
-      'path prefix' => $path,
-    ) + $options);
-  }
-
-  static public function addNamespaces(array $namespaces) {
-    foreach($namespaces as $namespace) {
-      call_user_func_array(array(__CLASS__, 'addNamespace'), $namespace);
+    $paths = array();
+    foreach($this->_path_builders as $path_builder) {
+      $paths[] = $path_builder->getPath($class);
     }
-  }
-
-  static public function addNamespaceHandler(array $namespace_handler) {
-    if (!isset($namespace_handler['path prefix']) || !isset($namespace_handler['namespace prefix'])) {
-      throw new \BadMethodCallException('Both path and namespace are required.');
-    }
-    $namespace_handler += self::getNamespaceInfoDefaults();
-    self::$namespaces[$namespace_handler['namespace prefix']][$namespace_handler['path prefix']] = $namespace_handler;
-  }
-
-  static public function getNamespaceInfoDefaults() {
-    return array(
-      'class hierarchy separator' => '_',
-      'file prefix' => '',
-      'file extension' => '.php',
-      'filename builder callback' => array(__CLASS__, 'buildClassFilename'),
-      'namespace hierarchy separator' => '\\',
-      'namespace prefix' => null,
-      'path class hierarchy separator' => DIRECTORY_SEPARATOR,
-      'path namespace hierarchy separator' => DIRECTORY_SEPARATOR,
-      'path separator' => DIRECTORY_SEPARATOR,
-      'path builder callback' => array(__CLASS__, 'buildClassPath'),
-      'path prefix' => '',
-    );
-  }
-
-  static public function getNamespaceHandlers($namespace) {
-    $build_namespace_handler = array();
-    foreach(self::$namespaces as $namespace_prefix => $namespace_info) {
-      if (strpos($namespace, $namespace_prefix) === 0) {
-        $build_namespace_handler += $namespace_info;
+    foreach($paths as $key => $path) {
+      if ($this->checkPath($path, $class)) {
+        if ($key != 0) {
+          unset($paths[$key]);
+          array_unshift($paths, $path);
+        }
+        $this->_cache->savePaths($paths);
+        return true;
       }
     }
-    return $build_namespace_handler;
+    return false;
   }
 
-  static public function buildClassPath($namespace_info, $class) {
-    $class = ltrim($class, $namespace_info['namespace hierarchy separator']);
-    if (strpos($class, $namespace_info['namespace prefix']) !== 0) {
-      return null;
+  public function addPathBuilder(PathBuilder $path_builder) {
+    $this->_path_builders[] = $path_builder;
+  }
+
+  private function checkPath($path, $class) {
+    static $cache = array();
+    if (!isset($cache[$class][$path])) {
+      if (is_readable($path)) {
+        include_once $path;
+      }
+      $cache[$class][$path] = class_exists($class, false);
     }
-    $return = substr($class, strlen($namespace_info['namespace prefix']) + 1);
-    $return = substr($return, 0 , strrpos($return, $namespace_info['namespace hierarchy separator']));
-    $return = str_replace($namespace_info['namespace hierarchy separator'], $namespace_info['path namespace hierarchy separator'], $return);
-    $return = (empty($return) ? '' : $namespace_info['path separator'] . $return);
-    $return .= $namespace_info['path separator'];
-    $return .= call_user_func($namespace_info['filename builder callback'], $namespace_info, $class);
-    return  $namespace_info['path prefix'] . $return;
-  }
-
-  static public function buildClassFilename($namespace_info, $class) {
-    $class = substr($class, strrpos($class, $namespace_info['namespace hierarchy separator']) + 1);
-    return $namespace_info['file prefix']
-          . str_replace($namespace_info['class hierarchy separator'], $namespace_info['path class hierarchy separator'], $class)
-          . $namespace_info['file extension'];
-  }
-
-  static public function setCachedData(array $data) {
-    if (isset($data['classes']) && is_array($data['classes'])) {
-      self::$classes += $data['classes'];
-    }
-  }
-
-  static public function getCachableData() {
-    $data['classes'] = self::$classes;
-    return $data;
-  }
-
-  static public function loadClass($class) {
-    $path = self::getClassPath($class);
-    if (isset($path)) {
-      require_once $path;
-    }
+    return $cache[$class][$path];
   }
 }
