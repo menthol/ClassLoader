@@ -27,6 +27,17 @@ final class ClassLoader {
     return $instance;
   }
 
+  static public function initWithPathBuilder(PathBuilder $pathbuilder, Cache $cache = null) {
+    if ($cache == null) {
+      $instance = self::init();
+    }
+    else {
+      $instance = self::initWithCache($cache);
+    }
+    $instance->addPathBuilder($pathbuilder);
+    return $instance;
+  }
+
   public function setCache(Cache $cache) {
     $this->_cache = $cache;
   }

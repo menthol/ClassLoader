@@ -19,5 +19,4 @@ if (!class_exists('Extensions\\ClassLoader\\PathBuilder\\SplPathBuilder')) {
   require dirname(__DIR__) . '/ext/ClassLoader/PathBuilder/SplPathBuilder.php';
 }
 
-$instance = ClassLoader::init();
-$instance->addPathBuilder(SplPathBuilder::initWithNamespace('Extensions', dirname(__DIR__) . '/ext'));
+ClassLoader::initWithPathBuilder(SplPathBuilder::initWithNamespace('Extensions', dirname(__DIR__) . '/ext'));
