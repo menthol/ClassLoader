@@ -1,8 +1,5 @@
 <?php
 
-use ClassLoader\ClassLoader;
-use Extensions\ClassLoader\PathBuilder\SplPathBuilder;
-
 if (!class_exists('ClassLoader\\ClassLoader')) {
   require dirname(__DIR__) . '/src/ClassLoader.php';
 }
