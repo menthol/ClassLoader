@@ -2,7 +2,6 @@
 namespace Extensions\ClassLoader\Cache\tests\units;
 
 require_once dirname(__DIR__) . '/scripts/init.php';
-require_once dirname(__DIR__) . '/../atoum/scripts/runner.php';
 
 use \mageekguy\atoum;
 
