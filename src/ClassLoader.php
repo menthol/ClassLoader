@@ -55,7 +55,7 @@ final class ClassLoader {
     if (class_exists($class, false)) {
       return true;
     }
-    $paths = array_values($this->_cache->getPaths());
+    $paths = array_values($this->_cache->getPaths($class));
     foreach($paths as $key => $path) {
       if ($this->checkPath($path, $class)) {
         if ($key != 0) {
