@@ -61,7 +61,7 @@ final class ClassLoader {
         if ($key != 0) {
           unset($paths[$key]);
           array_unshift($paths, $path);
-          $this->_cache->savePaths($paths);
+          $this->_cache->savePaths($paths, $class);
         }
         return true;
       }
@@ -76,7 +76,7 @@ final class ClassLoader {
           unset($paths[$key]);
           array_unshift($paths, $path);
         }
-        $this->_cache->savePaths($paths);
+        $this->_cache->savePaths($paths, $class);
         return true;
       }
     }
