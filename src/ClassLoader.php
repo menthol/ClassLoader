@@ -23,7 +23,7 @@ final class ClassLoader {
 
   static public function initWithCache(Cache $cache) {
     $instance = new ClassLoader();
-    $instance->setCache($cache);
+    $instance->_cache = $cache;
     return $instance;
   }
 
@@ -36,10 +36,6 @@ final class ClassLoader {
     }
     $instance->addPathBuilder($pathbuilder);
     return $instance;
-  }
-
-  public function setCache(Cache $cache) {
-    $this->_cache = $cache;
   }
 
   public function register() {
