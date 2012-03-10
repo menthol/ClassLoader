@@ -9,7 +9,7 @@ abstract class Cache {
   protected function __wakeup() {}
   protected function __set_state() {}
 
-  abstract public function getPaths($class);
-  abstract public function savePaths(array $paths, $class);
+  public abstract function getPaths($class);
+  public abstract function savePaths(array $paths, $class);
 
 }

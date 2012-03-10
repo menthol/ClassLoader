@@ -6,7 +6,7 @@ class Instance extends Cache {
 
   private $_cache = array();
 
-  static public function init() {
+  public static function init() {
     return new Instance();
   }
 

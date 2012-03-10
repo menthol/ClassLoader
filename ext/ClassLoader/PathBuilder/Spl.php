@@ -2,25 +2,25 @@
 
 namespace Extensions\ClassLoader\PathBuilder;
 
-class SplPathBuilder extends PathBuilder {
+class Spl extends PathBuilder {
 
   private $_options = array();
 
-  static public function initWithNamespace($namespace, $path, array $options = array()) {
+  public static function initWithNamespace($namespace, $path, array $options = array()) {
     return self::initWithPath($path, array('namespace' => $namespace) + $options);
   }
 
-  static public function initWithPath($path, array $options = array()) {
-    $instance = new SplPathBuilder();
+  public static function initWithPath($path, array $options = array()) {
+    $instance = new Spl();
     $instance->_options = array('path' => $path) + $options + self::getDefaultOptions();
     return $instance;
   }
 
-  static public function initWithPrefix($prefix, $path, array $options = array()) {
+  public static function initWithPrefix($prefix, $path, array $options = array()) {
     return self::initWithPath($path, array('prefix' => $prefix) + $options);
   }
 
-  static private function getDefaultOptions() {
+  private static function getDefaultOptions() {
     return array(
       'path separator' => DIRECTORY_SEPARATOR,
       'namespace' => '',

@@ -12,7 +12,7 @@ if (!class_exists('Extensions\\ClassLoader\\Cache\\Instance', false)) {
 if (!class_exists('Extensions\\ClassLoader\\PathBuilder\\PathBuilder', false)) {
   require_once dirname(__DIR__) . '/ext/ClassLoader/PathBuilder/PathBuilder.php';
 }
-if (!class_exists('Extensions\\ClassLoader\\PathBuilder\\SplPathBuilder', false)) {
-  require_once dirname(__DIR__) . '/ext/ClassLoader/PathBuilder/SplPathBuilder.php';
+if (!class_exists('Extensions\\ClassLoader\\PathBuilder\\Spl', false)) {
+  require_once dirname(__DIR__) . '/ext/ClassLoader/PathBuilder/Spl.php';
 }
 

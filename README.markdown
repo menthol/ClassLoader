@@ -29,7 +29,7 @@ $instance = \ClassLoader\ClassLoader::init();
 $instance->register();
 
 // Add a path builder
-$path_builder = \Extensions\ClassLoader\PathBuilder\SplPathBuilder::initWithNamespace('myapp', '/my/app/directory');
+$path_builder = \Extensions\ClassLoader\PathBuilder\Spl::initWithNamespace('myapp', '/my/app/directory');
 $instance->addPathBuilder($path_builder);
 
 // Autoload file {my_app_base_dir}/classes/Controllers/MainController.php.
@@ -41,7 +41,7 @@ $app = new /myapp/Controllers/MainController();
 ```php
 <?php
 // Register namespace.
-$path_builder = \Extensions\ClassLoader\PathBuilder\SplPathBuilder::initWithNamespace('myapp', '/my/app/directory');
+$path_builder = \Extensions\ClassLoader\PathBuilder\Spl::initWithNamespace('myapp', '/my/app/directory');
 \ClassLoader\ClassLoader::initWithPathBuilder($path_builder)->register();
 
 // Autoload file {my_app_base_dir}/classes/Controllers/MainController.php.

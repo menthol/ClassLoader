@@ -9,6 +9,6 @@ abstract class PathBuilder {
   protected function __wakeup() {}
   protected function __set_state() {}
 
-  abstract public function getPath($class);
+  public abstract function getPath($class);
 
 }

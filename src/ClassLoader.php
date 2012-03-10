@@ -5,7 +5,7 @@ namespace ClassLoader;
 use Extensions\ClassLoader\Cache\Cache;
 use Extensions\ClassLoader\Cache\Instance;
 use Extensions\ClassLoader\PathBuilder\PathBuilder;
-use Extensions\ClassLoader\PathBuilder\SplPathBuilder;
+use Extensions\ClassLoader\PathBuilder\Spl;
 
 final class ClassLoader {
 
@@ -17,17 +17,17 @@ final class ClassLoader {
   private function __wakeup() {}
   private function __set_state() {}
 
-  static public function init() {
+  public static function init() {
     return self::initWithCache(Instance::init());
   }
 
-  static public function initWithCache(Cache $cache) {
+  public static function initWithCache(Cache $cache) {
     $instance = new ClassLoader();
     $instance->_cache = $cache;
     return $instance;
   }
 
-  static public function initWithPathBuilder(PathBuilder $pathbuilder, Cache $cache = null) {
+  public static function initWithPathBuilder(PathBuilder $pathbuilder, Cache $cache = null) {
     if ($cache == null) {
       $instance = self::init();
     }
