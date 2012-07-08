@@ -2,10 +2,10 @@
 
 namespace ClassLoader;
 
-use Extensions\ClassLoader\Cache\Cache;
-use Extensions\ClassLoader\Cache\Instance;
-use Extensions\ClassLoader\PathBuilder\PathBuilder;
-use Extensions\ClassLoader\PathBuilder\Spl;
+use ClassLoader\Cache\Cache;
+use ClassLoader\Cache\Instance;
+use ClassLoader\PathBuilder\PathBuilder;
+use ClassLoader\PathBuilder\Spl;
 
 final class ClassLoader {
 

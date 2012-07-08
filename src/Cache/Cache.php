@@ -1,6 +1,6 @@
 <?php
 
-namespace Extensions\ClassLoader\Cache;
+namespace ClassLoader\Cache;
 
 abstract class Cache {
 

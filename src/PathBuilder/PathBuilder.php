@@ -1,6 +1,6 @@
 <?php
 
-namespace Extensions\ClassLoader\PathBuilder;
+namespace ClassLoader\PathBuilder;
 
 abstract class PathBuilder {
 
