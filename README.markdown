@@ -36,7 +36,7 @@ $instance->addPathBuilder($path_builder);
 $app = new /myapp/Controllers/MainController();
 ```
 
-#### Fast methode
+#### Fast method
 
 ```php
 <?php
